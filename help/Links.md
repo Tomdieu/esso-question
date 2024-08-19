@@ -1,0 +1,2 @@
+- https://gluestack.io/ui/docs/home/getting-started/installation
+- https://rnr-docs.vercel.app/getting-started/introduction/

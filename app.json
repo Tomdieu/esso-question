@@ -21,6 +21,9 @@
         "backgroundColor": "#ffffff"
       }
     },
+    "install": {
+      "exclude": ["expo-updates", "expo-splash-screen","react-native-reanimated"]
+    },
     "web": {
       "bundler": "metro",
       "output": "static",
