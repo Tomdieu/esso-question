@@ -1,16 +1,9 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View,Button ,TextInput} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Question, questions } from "@/constants/questions";
 import useStore from "@/hooks/store";
-import { Input } from "@/components/ui/input";
-import {
-  Button,
-  ButtonText,
-  ButtonSpinner,
-  ButtonIcon,
-  ButtonGroup,
-} from "@/components/ui/button";
+
 
 // Define theme colors and fonts
 const THEME_COLORS = {
@@ -76,7 +69,7 @@ const QuestionScreen = () => {
       <View style={styles.content}>
         <Text style={styles.questionText}>{question.text}</Text>
 
-        <Input
+        <TextInput
           style={styles.answerInput}
           value={answer}
           onChangeText={setAnswer}
@@ -85,16 +78,13 @@ const QuestionScreen = () => {
           className="bg-white placeholder:text-gray-700 caret-blue-600 text-black"
         />
         {/* <CustomButton className="py-2" title="Next" onPress={handleNext} disabled={!answer} /> */}
-        {/* <Button
+        <Button
           title="Next"
           onPress={handleNext}
           disabled={!answer}
           color={THEME_COLORS.primary} // Change button color
-        /> */}
+        />
 
-        <Button size="md" variant="solid" action="primary">
-          <ButtonText>Hello World!</ButtonText>
-        </Button>
       </View>
     </View>
   );

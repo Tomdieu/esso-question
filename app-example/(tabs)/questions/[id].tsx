@@ -3,14 +3,14 @@ import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Question, questions } from "@/constants/questions";
 import useStore from "@/hooks/store";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/components/ui/gluestack/input";
 import {
   Button,
   ButtonText,
   ButtonSpinner,
   ButtonIcon,
   ButtonGroup,
-} from "@/components/ui/button";
+} from "@/components/ui/gluestack/button";
 
 // Define theme colors and fonts
 const THEME_COLORS = {

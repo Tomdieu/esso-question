@@ -1,14 +1,14 @@
 import { StyleSheet, View, Text } from 'react-native';
-import { Checkbox, CheckboxGroup, CheckboxIcon, CheckboxIndicator, CheckboxLabel } from '@/components/ui/checkbox';
+import { Checkbox, CheckboxGroup, CheckboxIcon, CheckboxIndicator, CheckboxLabel } from '@/components/ui/gluestack/checkbox';
 
-import { Button ,ButtonText} from '@/components/ui/button';
-import { FormControl, FormControlLabel,FormControlError,FormControlLabelText, FormControlHelper, FormControlHelperText, FormControlErrorIcon, FormControlErrorText } from '@/components/ui/form-control';
-import { VStack } from '@/components/ui/vstack';
+import { Button ,ButtonText} from '@/components/ui/gluestack/button';
+import { FormControl, FormControlLabel,FormControlError,FormControlLabelText, FormControlHelper, FormControlHelperText, FormControlErrorIcon, FormControlErrorText } from '@/components/ui/gluestack/form-control';
+import { VStack } from '@/components/ui/gluestack/vstack';
 import { CheckIcon } from 'lucide-react-native';
 import { useState } from 'react';
-import { Box } from '@/components/ui/box';
-import { Input, InputField } from '@/components/ui/input';
-import { AlertCircleIcon } from '@/components/ui/icon';
+import { Box } from '@/components/ui/gluestack/box';
+import { Input, InputField } from '@/components/ui/gluestack/input';
+import { AlertCircleIcon } from '@/components/ui/gluestack/icon';
 
 
 export default function HomeScreen() {

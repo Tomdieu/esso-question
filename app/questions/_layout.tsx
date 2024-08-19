@@ -1,10 +1,8 @@
-import { View, Text } from "react-native";
 import React from "react";
 import { Stack } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme.web";
-import { Colors } from "@/constants/Colors";
 import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider, Box } from "native-base";
+import { NativeBaseProvider } from "native-base";
 
 type Props = {};
 

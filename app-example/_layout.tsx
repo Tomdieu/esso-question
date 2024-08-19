@@ -14,7 +14,6 @@ import ReactQueryProvider from "@/providers/ReactQueryProvider";
 
 import { NAV_THEME } from "~/lib/constants";
 import { useColorScheme } from "~/lib/useColorScheme";
-import { ReactNativeElementProvider } from "@/providers/ReactNativeElementProvider";
 
 const LIGHT_THEME: Theme = {
   dark: false,
@@ -81,8 +80,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ReactNativeElementProvider>
-      <ThemeProvider value={LIGHT_THEME}>
+    <ThemeProvider value={LIGHT_THEME}>
         <StatusBar style={"dark"} backgroundColor="red" />
         <ReactQueryProvider>
           <Stack>
@@ -91,6 +89,5 @@ export default function RootLayout() {
           </Stack>
         </ReactQueryProvider>
       </ThemeProvider>
-    </ReactNativeElementProvider>
   );
 }
