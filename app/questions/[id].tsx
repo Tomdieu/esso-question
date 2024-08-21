@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Button ,TextInput} from "react-native";
+import { StyleSheet, Text, View,Button ,TextInput, TouchableOpacity} from "react-native";
 import React, { useEffect, useState } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Question, questions } from "@/constants/questions";
@@ -84,6 +84,12 @@ const QuestionScreen = () => {
           disabled={!answer}
           color={THEME_COLORS.primary} // Change button color
         />
+
+        <TouchableOpacity className="w-full">
+          <View className="bg-orange-600">
+            <Text className="text-2xl text-white">Next</Text>
+          </View>
+        </TouchableOpacity>
 
       </View>
     </View>

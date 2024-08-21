@@ -2,18 +2,14 @@ import React from "react";
 import { Stack } from "expo-router";
 import { useColorScheme } from "@/hooks/useColorScheme.web";
 import { StatusBar } from "expo-status-bar";
-import { NativeBaseProvider } from "native-base";
 
 type Props = {};
 
 const StackLayout = (props: Props) => {
-  const colorScheme = useColorScheme();
   return (
-    <NativeBaseProvider>
-      <Stack
+    <Stack
         screenOptions={{ animation: "slide_from_right", headerShown: false }}
       >
-        <StatusBar style="light" backgroundColor="#ffff" />
         <Stack.Screen
           name="index"
           options={{
@@ -23,7 +19,6 @@ const StackLayout = (props: Props) => {
           }}
         />
       </Stack>
-    </NativeBaseProvider>
   );
 };
 

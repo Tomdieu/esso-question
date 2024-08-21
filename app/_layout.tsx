@@ -1,9 +1,10 @@
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
 import { useEffect } from "react";
-import { StatusBar } from "react-native";
 import { AppRegistry } from 'react-native';
 import { MD3LightTheme as DefaultTheme, PaperProvider } from 'react-native-paper';
+import { NativeBaseProvider } from "native-base";
+
 
 const theme = {
   ...DefaultTheme,
@@ -38,10 +39,13 @@ export default function RootLayout() {
 
   return (
     <PaperProvider theme={theme}>
+      <NativeBaseProvider>
+
       <Stack>
         <Stack.Screen name="index" options={{ headerTitle: "Esso Question" }} />
         <Stack.Screen name="questions" />
       </Stack>
+      </NativeBaseProvider>
     </PaperProvider>
   );
 }
