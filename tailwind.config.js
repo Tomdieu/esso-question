@@ -1,9 +1,13 @@
 /** @type {import('tailwindcss').Config} */
+const nativewind = require("nativewind/tailwind/native")
 module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
       fontFamily: {
+        "inter-medium":["InterMedium"],
+        "inter-regular":["InterRegular"],
+        "inter-bold":["InterBold"],
       },
       colors: {
         primary: {
@@ -74,5 +78,7 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    nativewind()
+  ],
 };
