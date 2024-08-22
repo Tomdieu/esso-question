@@ -1,9 +1,21 @@
-import { StyleSheet, Text, View,Button ,TextInput, TouchableOpacity} from "react-native";
-import React, { useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+  ScrollView,
+  Animated, // Import Animated API
+  Easing,
+} from "react-native";
+import React, { useEffect, useState, useRef } from "react";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
 import { Question, questions } from "@/constants/questions";
 import useStore from "@/hooks/store";
-
 
 // Define theme colors and fonts
 const THEME_COLORS = {
@@ -27,14 +39,44 @@ const QuestionScreen = () => {
   const question: Question | undefined = questions[questionId];
   const [answer, setAnswer] = useState("");
 
-  const { setAnswer: storeAnwser } = useStore();
+  const { setAnswer: storeAnswer } = useStore();
+
+  const buttonAnimation = useRef(new Animated.Value(0)).current; // Animation value for the button
+  const questionOpacity = useRef(new Animated.Value(0)).current; // Animation value for question opacity
+  const questionTranslateY = useRef(new Animated.Value(20)).current; // Animation value for question translation
 
   useEffect(() => {
     setAnswer("");
+
+    // Reset and start the question animation when the question changes
+    questionOpacity.setValue(0);
+    questionTranslateY.setValue(20);
+    Animated.parallel([
+      Animated.timing(questionOpacity, {
+        toValue: 1,
+        duration: 500,
+        useNativeDriver: true,
+      }),
+      Animated.timing(questionTranslateY, {
+        toValue: 0,
+        duration: 500,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }),
+    ]).start();
   }, [questionId]);
 
+  useEffect(() => {
+    // Animate the button when the answer changes
+    Animated.timing(buttonAnimation, {
+      toValue: answer ? 1 : 0,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [answer]);
+
   const handleNext = () => {
-    storeAnwser(question.id, answer);
+    storeAnswer(question.id, answer);
     if (questionId < questions.length - 1) {
       router.push(`/questions/${question.id + 1}`);
     } else {
@@ -51,48 +93,81 @@ const QuestionScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Stack.Screen
-        options={{
-          title: `Question ${question.id}`,
-          headerStyle: {
-            backgroundColor: THEME_COLORS.primary,
-          },
-          headerTintColor: THEME_COLORS.background,
-          headerTitleStyle: {
-            fontWeight: "bold",
-            fontFamily: FONT_FAMILY.bold,
-          },
-        }}
-      />
+    <KeyboardAvoidingView
+      style={styles.container}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.innerContainer}>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <Stack.Screen
+              options={{
+                headerTitle: `Question ${question.id}`,
+                headerStyle: {
+                  backgroundColor: THEME_COLORS.primary,
+                },
+                headerTintColor: THEME_COLORS.background,
+                headerTitleStyle: {
+                  fontWeight: "bold",
+                  fontFamily: FONT_FAMILY.bold,
+                },
+              }}
+            />
 
-      <View style={styles.content}>
-        <Text style={styles.questionText}>{question.text}</Text>
+            <View style={styles.content}>
+              <Animated.Text
+                style={[
+                  styles.questionText,
+                  {
+                    opacity: questionOpacity,
+                    transform: [{ translateY: questionTranslateY }],
+                  },
+                ]}
+                className={"mt-8"}
+              >
+                {question.text}
+              </Animated.Text>
 
-        <TextInput
-          style={styles.answerInput}
-          value={answer}
-          onChangeText={setAnswer}
-          placeholder="Enter your answer here..."
-          placeholderTextColor={THEME_COLORS.border}
-          className="bg-white placeholder:text-gray-700 caret-blue-600 text-black"
-        />
-        {/* <CustomButton className="py-2" title="Next" onPress={handleNext} disabled={!answer} /> */}
-        <Button
-          title="Next"
-          onPress={handleNext}
-          disabled={!answer}
-          color={THEME_COLORS.primary} // Change button color
-        />
-
-        <TouchableOpacity className="w-full">
-          <View className="bg-orange-600">
-            <Text className="text-2xl text-white">Next</Text>
+              <TextInput
+                style={styles.answerInput}
+                value={answer}
+                onChangeText={setAnswer}
+                placeholder="Enter your answer here..."
+                placeholderTextColor={THEME_COLORS.border}
+                className="bg-white placeholder:text-gray-700 caret-blue-600 text-black"
+                numberOfLines={5}
+              />
+            </View>
+          </ScrollView>
+          <View style={styles.buttonContainer}>
+            <Animated.View
+              style={{
+                opacity: buttonAnimation,
+                transform: [
+                  {
+                    scale: buttonAnimation.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0.95, 1],
+                    }),
+                  },
+                ],
+              }}
+            >
+              <TouchableOpacity
+                disabled={!answer}
+                style={[
+                  styles.button,
+                  { backgroundColor: !answer ? "rgba(37,99,235,0.78)" : "#2563eb" },
+                ]}
+                onPress={handleNext}
+              >
+                <Text style={styles.buttonText}>Next</Text>
+              </TouchableOpacity>
+            </Animated.View>
           </View>
-        </TouchableOpacity>
-
-      </View>
-    </View>
+        </View>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -103,10 +178,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: THEME_COLORS.background,
   },
-  content: {
+  innerContainer: {
     flex: 1,
-    justifyContent: "center",
-    padding: 20,
+    justifyContent: "space-between",
+  },
+  scrollContainer: {
+    flexGrow: 1,
+    paddingHorizontal: 16,
+    paddingBottom: 100, // Ensure there's enough space for the button
+  },
+  content: {
+    marginTop: 20,
   },
   questionText: {
     fontSize: 24,
@@ -119,13 +201,28 @@ const styles = StyleSheet.create({
     borderColor: THEME_COLORS.border,
     borderRadius: 8,
     padding: 12,
-    marginBottom: 20,
     fontFamily: FONT_FAMILY.regular,
     textAlignVertical: "top", // Align text to the top
+  },
+  buttonContainer: {
+    paddingHorizontal: 16,
+    paddingBottom: 20, // Adjust for proper spacing
+  },
+  button: {
+    paddingVertical: 13,
+    borderRadius: 5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+    fontSize: 20,
   },
   notFoundText: {
     fontSize: 18,
     fontFamily: FONT_FAMILY.regular,
     color: THEME_COLORS.text,
+    textAlign: "center",
   },
 });

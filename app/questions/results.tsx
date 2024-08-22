@@ -9,6 +9,7 @@ import React from "react";
 import useStore from "@/hooks/store";
 import { questions } from "@/constants/questions";
 import { Link, useRouter } from "expo-router";
+import { StatusBar } from "expo-status-bar";
 
 // Define theme colors and fonts
 const THEME_COLORS = {
@@ -30,6 +31,7 @@ const ResultScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar backgroundColor="white" style="dark"/>
       <Text style={styles.header}>Your Responses:</Text>
 
       {questions.map((question) => (
@@ -44,6 +46,7 @@ const ResultScreen = () => {
       <TouchableOpacity
         onPress={() => router.push("/questions/")}
         style={styles.button}
+        className="w-full"
       >
         <Text style={styles.buttonText}>Retour au debut</Text>
       </TouchableOpacity>

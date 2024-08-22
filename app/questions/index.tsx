@@ -1,7 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { questions } from "@/constants/questions";
 import { Link, useNavigation } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Swiper from "react-native-swiper";
 
 // Define theme colors and fonts
 const THEME_COLORS = {
@@ -17,16 +19,40 @@ const FONT_FAMILY = {
 };
 
 const Questions = () => {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Questions</Text>
+  const swiperRef = useRef<Swiper>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-      <Link href={`/questions/${1}`} asChild>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Debuter</Text>
-        </TouchableOpacity>
-      </Link>
-    </View>
+  return (
+    <SafeAreaView className="flex h-full bg-white">
+      <View style={styles.container}>
+        <Text style={styles.title}>Ideogramme</Text>
+        <View className="flex-1 items-center justify-center">
+          <Text className="text-2xl text-center">Vous devez répondre à cette série de questions.</Text>
+        </View>
+        {/* <Swiper
+          ref={swiperRef}
+          loop={false}
+          dot={
+            <View className="w-[20px] h-[4px] mx-1 bg-[#E2E8F0] rounded-full" />
+          }
+          activeDot={
+            <View className="w-[20px] h-[4px] mx-1 bg-[#000] rounded-full" />
+          }
+          onIndexChanged={(index) => setActiveIndex(index)}
+        >
+          {questions.map((question)=>(
+            <View key={question.id} className="flex items-center justify-center flex-1">
+              <Text className="text-2xl font-bold text-center">{question.text}</Text>
+            </View>
+          ))}
+        </Swiper> */}
+        <Link href={`/questions/${1}`} asChild>
+          <TouchableOpacity style={styles.button} className="w-full">
+            <Text style={styles.buttonText}>Debuter</Text>
+          </TouchableOpacity>
+        </Link>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -35,8 +61,6 @@ export default Questions;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center", // Center content vertically
-    alignItems: "center", // Center content horizontally
     padding: 20,
     backgroundColor: THEME_COLORS.background,
   },
@@ -47,7 +71,7 @@ const styles = StyleSheet.create({
     color: THEME_COLORS.text,
   },
   button: {
-    backgroundColor: THEME_COLORS.primary,
+    backgroundColor: THEME_COLORS.text,
     padding: 15,
     borderRadius: 8,
   },

@@ -1,80 +1,71 @@
-import React from 'react';
-import { Stack, useRouter } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { FAB, useTheme } from 'react-native-paper';
+import React from "react";
+import { Stack, useRouter,router } from "expo-router";
+import { StatusBar } from "expo-status-bar";
+import {
+  Image,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { FAB, useTheme } from "react-native-paper";
+import { ArrowRight } from "lucide-react-native";
 
 export default function Index() {
-  const theme = useTheme();
-  const router = useRouter()
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar style="dark" />
-      <Stack.Screen options={{ headerShown: false }} />
-
-      <View style={styles.content}>
-        <Text style={styles.title}>Bienvenue !</Text>
-        <Text style={styles.subtitle}>
-          Êtes-vous prêt ? {/* à tester vos connaissances ? */}
-        </Text>
-
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={() => {router.push(`/questions/1`)}}
+    <SafeAreaView className="flex h-full justify-between bg-white ">
+      <ScrollView className="flex-1">
+      <View className="flex-1 justify-center items-center h-full px-5  min-h-[95vh]">
+        <TouchableOpacity
+          onPress={() => {}}
+          className="w-full flex justify-end items-end p-5"
         >
-          <Text style={styles.buttonText}>Commencer</Text>
+          <Text className="text-black text-md font-inter-bold">Skip</Text>
+        </TouchableOpacity>
+        <View className="flex-1">
+          <Image
+            source={require("../assets/images/img8.jpeg")}
+            className="w-72 h-72"
+            resizeMode="contain"
+          />
+        </View>
+        <View className="w-full">
+          <Text className="font-bold text-4xl font-inter-regular">Bienvenue !</Text>
+          <Text className="text-left text-lg font-bold text-gray-500 font-inter-regular">
+            Sur ideogramme.
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          style={{
+            borderRadius: 5,
+            marginVertical: 8,
+            flexDirection:"row",
+            alignItems:"center",
+            justifyContent:"center"
+          }}
+          className="bg-black px-5 py-3 rounded-md w-full font-inter-medium flex items-center flex-col"
+          onPress={()=>{
+            router.push('/questions/')
+          }}
+        >
+          <Text
+            style={{ fontWeight: "bold" }}
+            className="text-2xl font-medium text-center text-white"
+          >
+            Continue
+          </Text>
+          <ArrowRight color="white" size={32} className=""/>
         </TouchableOpacity>
       </View>
-
-      <FAB
-        style={styles.fab}
-        icon="plus"
-        color="white"
-        onPress={() => {}} // Replace with your action
-      />
+      </ScrollView>
+     
+      <StatusBar style="dark" />
     </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 30,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#2c3e50', 
-    marginBottom: 10,
-  },
-  subtitle: {
-    fontSize: 18,
-    textAlign: 'center',
-    color: '#7f8c8d',
-    marginBottom: 40,
-  },
-  button: {
-    backgroundColor: '#3498db',
-    padding: 15,
-    borderRadius: 8,
-  },
-  buttonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  fab: {
-    position: 'absolute',
-    margin: 16,
-    right: 0,
-    bottom: 0,
-    backgroundColor: '#2ecc71', 
-  },
-});
+const styles = StyleSheet.create({});
