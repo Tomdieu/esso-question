@@ -47,9 +47,9 @@ export default function Index() {
             alignItems:"center",
             justifyContent:"center"
           }}
-          className="bg-black px-5 py-3 rounded-md w-full font-inter-medium flex items-center flex-col"
+          className="bg-blue-600 px-5 py-3 rounded-md w-full font-inter-medium flex items-center flex-col"
           onPress={()=>{
-            router.push('/questions/')
+            router.push('/questions/problem')
           }}
         >
           <Text
