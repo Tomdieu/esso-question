@@ -8,7 +8,7 @@ import {
 import React from "react";
 import useStore from "@/hooks/store";
 import { questions } from "@/constants/questions";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 // Define theme colors and fonts
@@ -31,14 +31,16 @@ const ResultScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <StatusBar backgroundColor="white" style="dark"/>
+      <StatusBar backgroundColor="white" style="dark" />
       <Text style={styles.header}>Your Responses:</Text>
 
       {questions.map((question) => (
         <View key={question.id} style={styles.resultItem}>
           <Text style={styles.questionText}>{question.text}</Text>
           <Text style={styles.answerText}>
-            {answers[question.id] || "Not answered"}
+            {Array.isArray(answers[question.id])
+              ? (answers[question.id] as string[]).join(", ")
+              : answers[question.id] || "Not answered"}
           </Text>
         </View>
       ))}
@@ -46,9 +48,8 @@ const ResultScreen = () => {
       <TouchableOpacity
         onPress={() => router.push("/questions/")}
         style={styles.button}
-        className="w-full"
       >
-        <Text style={styles.buttonText}>Retour au debut</Text>
+        <Text style={styles.buttonText}>Retour au début</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -83,13 +84,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: FONT_FAMILY.regular,
     color: THEME_COLORS.text,
+    marginTop: 5,
   },
   button: {
     backgroundColor: THEME_COLORS.primary,
     padding: 15,
     borderRadius: 8,
-    alignSelf: "center", // Center the button horizontally
-    marginTop: 20,
+    alignSelf: "center",
+    marginTop: 30,
+    width: "100%",
   },
   buttonText: {
     color: "#fff",
