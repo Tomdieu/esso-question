@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import useStore from "@/hooks/store";
-import { questions } from "@/constants/questions";
+import { Question, questions } from "@/constants/questions";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
@@ -62,6 +62,7 @@ const ResultScreen = () => {
       <TouchableOpacity
         onPress={() => router.push("/questions/")}
         style={styles.button}
+        className="bg-blue-500"
       >
         <Text style={styles.buttonText}>Retour au début</Text>
       </TouchableOpacity>
@@ -119,7 +120,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   button: {
-    backgroundColor: THEME_COLORS.primary,
     padding: 15,
     borderRadius: 8,
     alignSelf: "center",

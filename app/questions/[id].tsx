@@ -7,46 +7,46 @@ import {
   View,
   Animated,
   Easing,
-} from "react-native";
-import React, { useEffect, useState, useRef } from "react";
-import useStore from "@/hooks/store";
-import { Question, questions } from "@/constants/questions";
-import { useLocalSearchParams, useRouter } from "expo-router";
-import { StatusBar } from "expo-status-bar";
+} from 'react-native';
+import React, { useEffect, useState, useRef } from 'react';
+import { Question, questions } from '@/constants/questions';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import Checkbox from 'expo-checkbox';
+import { useQuestionStore } from '@/store/questions';
 
 // Define theme colors and fonts
 const THEME_COLORS = {
-  primary: "#f4511e",
-  background: "#fff",
-  text: "#333",
-  separator: "#eee",
-  border: "#eee",
-
+  primary: '#f4511e',
+  background: '#fff',
+  text: '#333',
+  separator: '#eee',
+  border: '#eee',
 };
 
 const FONT_FAMILY = {
-  regular: "InterRegular",
-  medium: "InterMedium",
-  bold: "InterBold",
+  regular: 'InterRegular',
+  medium: 'InterMedium',
+  bold: 'InterBold',
 };
 
 const QuestionScreen = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
 
-  const questionId = parseInt(id ?? "1", 10) - 1;
+  const { getAnswer, setAnswer: storeAnswer } = useQuestionStore();
+
+  const questionId = parseInt(id ?? '1', 10) - 1;
   const question = questions[questionId];
   const [answer, setAnswer] = useState<string | string[] | null>(null);
-
-  const { setAnswer: storeAnswer, answers } = useStore();
 
   const buttonAnimation = useRef(new Animated.Value(0)).current;
   const questionOpacity = useRef(new Animated.Value(0)).current;
   const questionTranslateY = useRef(new Animated.Value(20)).current;
 
   useEffect(() => {
-    setAnswer(answers[question?.id] || null);
+    const savedAnswer = getAnswer(question.id);
+    setAnswer(savedAnswer || null);
 
     questionOpacity.setValue(0);
     questionTranslateY.setValue(20);
@@ -63,7 +63,7 @@ const QuestionScreen = () => {
         useNativeDriver: true,
       }),
     ]).start();
-  }, [questionId]);
+  }, [questionId, getAnswer]);
 
   useEffect(() => {
     Animated.timing(buttonAnimation, {
@@ -74,73 +74,94 @@ const QuestionScreen = () => {
   }, [answer]);
 
   const handleNext = () => {
-    if (!answer) return; // Prevent advancing if no answer
+    if (isValidAnswer(answer, question.type)) {
+      if(answer){
 
-    storeAnswer(question.id, Array.isArray(answer) ? answer.join(", ") : answer || "");
-    if (questionId < questions.length - 1) {
-      router.push(`/questions/${question.id + 1}`);
+        storeAnswer(question.id, answer);
+      }
+
+      if (questionId < questions.length - 1) {
+        router.push(`/questions/${question.id + 1}`);
+      } else {
+        router.push('/questions/results');
+      }
     } else {
-      router.push("/questions/results");
+      // You can add visual feedback here (e.g., show an error message)
+      // to indicate that the answer is required
+      console.log('Please answer the question');
     }
   };
 
-  const renderInput = (currentQuestion: Question, subQuestionId?: number) => {
-    const [subAnswer, setSubAnswer] = useState<string | string[] | null>(
-      subQuestionId ? answers[subQuestionId] : answers[currentQuestion.id]
-    );
+  const isValidAnswer = (
+    answer: string | string[] | null,
+    questionType: 'text' | 'checkbox' | 'radio'
+  ): boolean => {
+    if (questionType === 'text') {
+      return answer !== null &&  typeof answer=="string" && answer.trim() !== ''; // Check if text is not empty
+    } else if (questionType === 'checkbox' || questionType === 'radio') {
+      return answer !== null && answer.length > 0; // Check if at least one option is selected
+    }
+    return false;
+  };
 
-    const handleSubAnswerChange = (newAnswer: string | string[]) => {
-      setSubAnswer(newAnswer);
-      storeAnswer(subQuestionId || currentQuestion.id, Array.isArray(newAnswer) ? newAnswer.join(", ") : newAnswer);
+  const renderInput = (currentQuestion: Question) => {
+    const handleSubAnswerChange = (questionId:number,newAnswer: string | string[]) => {
+      setAnswer(newAnswer);
+      // Store answer immediately for checkboxes and radio buttons
+      if (currentQuestion.type !== 'text') {
+        storeAnswer(questionId, newAnswer);
+      }
     };
 
     switch (currentQuestion.type) {
-      case "text":
+      case 'text':
         return (
           <TextInput
             style={styles.answerInput}
-            value={typeof subAnswer === "string" ? subAnswer : ""}
-            onChangeText={handleSubAnswerChange}
+            value={typeof answer === 'string' ? answer : ''}
+            onChangeText={(value)=>{
+              handleSubAnswerChange(currentQuestion.id,value)
+            }}
             placeholder="Enter your answer here..."
             placeholderTextColor={THEME_COLORS.border}
             numberOfLines={5}
           />
         );
-      case "checkbox":
+      case 'checkbox':
         return currentQuestion.choices?.map((choice, index) => (
           <View key={index} style={styles.checkboxContainer}>
             <Checkbox
-              value={Array.isArray(subAnswer) && subAnswer.includes(choice)}
+              value={Array.isArray(answer) && answer.includes(choice)}
               onValueChange={(checked) => {
                 const newAnswer = checked
-                  ? Array.isArray(subAnswer)
-                    ? [...subAnswer, choice]
+                  ? Array.isArray(answer)
+                    ? [...answer, choice]
                     : [choice]
-                  : Array.isArray(subAnswer)
-                  ? subAnswer.filter((item) => item !== choice)
+                  : Array.isArray(answer)
+                  ? answer.filter((item) => item !== choice)
                   : [];
-                handleSubAnswerChange(newAnswer);
+                handleSubAnswerChange(currentQuestion.id,newAnswer);
               }}
             />
             <Text style={styles.checkboxLabel}>{choice}</Text>
           </View>
         ));
-      case "radio":
+      case 'radio':
         return currentQuestion.choices?.map((choice, index) => (
           <TouchableOpacity
             key={index}
             style={styles.radioContainer}
-            onPress={() => handleSubAnswerChange(choice)}
+            onPress={() => handleSubAnswerChange(currentQuestion.id,choice)}
           >
             <View
               style={[
                 styles.radioCircle,
                 {
-                  borderColor: subAnswer === choice ? THEME_COLORS.primary : THEME_COLORS.border,
+                  borderColor: answer === choice ? THEME_COLORS.primary : THEME_COLORS.border,
                 },
               ]}
             >
-              {subAnswer === choice && (
+              {answer === choice && (
                 <View
                   style={[
                     styles.radioSelected,
@@ -161,7 +182,7 @@ const QuestionScreen = () => {
     return subQuestions.map((subQuestion) => (
       <View key={subQuestion.id} style={styles.subQuestionContainer}>
         <Text style={styles.subQuestionText}>{subQuestion.text}</Text>
-        {renderInput(subQuestion, subQuestion.id)}
+        {renderInput(subQuestion)}
       </View>
     ));
   };
@@ -219,11 +240,11 @@ const QuestionScreen = () => {
           }}
         >
           <TouchableOpacity
-            disabled={!answer}
+            disabled={!isValidAnswer(answer, question.type)}
             onPress={handleNext}
             style={[
               styles.button,
-              { backgroundColor: !answer ? "rgba(37,99,235,0.78)" : "#2563eb" },
+              { backgroundColor: !isValidAnswer(answer, question.type) ? 'rgba(37,99,235,0.78)' : '#2563eb' },
             ]}
           >
             <Text style={styles.buttonText}>Next</Text>
@@ -265,11 +286,11 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 12,
     fontFamily: FONT_FAMILY.regular,
-    textAlignVertical: "top",
+    textAlignVertical: 'top',
   },
   checkboxContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 12,
   },
   checkboxLabel: {
@@ -278,8 +299,8 @@ const styles = StyleSheet.create({
     color: THEME_COLORS.text,
   },
   radioContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 12,
   },
   radioCircle: {
@@ -287,8 +308,8 @@ const styles = StyleSheet.create({
     width: 24,
     borderRadius: 12,
     borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   radioSelected: {
     height: 12,
@@ -313,24 +334,23 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonContainer: {
-    paddingHorizontal: 16,
     paddingBottom: 20,
   },
   button: {
     paddingVertical: 13,
     borderRadius: 5,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+    color: '#fff',
+    fontWeight: 'bold',
     fontSize: 20,
   },
   notFoundText: {
     fontSize: 18,
     fontFamily: FONT_FAMILY.regular,
     color: THEME_COLORS.text,
-    textAlign: "center",
+    textAlign: 'center',
   },
 });

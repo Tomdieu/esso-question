@@ -47,7 +47,7 @@ const Questions = () => {
           ))}
         </Swiper> */}
         <Link href={`/questions/${1}`} asChild>
-          <TouchableOpacity style={styles.button} className="w-full">
+          <TouchableOpacity style={styles.button} className="w-full bg-blue-600">
             <Text style={styles.buttonText}>Debuter</Text>
           </TouchableOpacity>
         </Link>
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
     color: THEME_COLORS.text,
   },
   button: {
-    backgroundColor: THEME_COLORS.text,
     padding: 15,
     borderRadius: 8,
   },
