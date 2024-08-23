@@ -20,9 +20,9 @@ const THEME_COLORS = {
   primary: "#f4511e",
   background: "#fff",
   text: "#333",
-  border: "#333",
-
   separator: "#eee",
+  border: "#eee",
+
 };
 
 const FONT_FAMILY = {
@@ -92,7 +92,6 @@ const QuestionScreen = () => {
     const handleSubAnswerChange = (newAnswer: string | string[]) => {
       setSubAnswer(newAnswer);
       storeAnswer(subQuestionId || currentQuestion.id, Array.isArray(newAnswer) ? newAnswer.join(", ") : newAnswer);
-
     };
 
     switch (currentQuestion.type) {

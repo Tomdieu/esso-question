@@ -29,6 +29,19 @@ const ResultScreen = () => {
   const answers = useStore((state) => state.answers);
   const router = useRouter();
 
+  const renderSubQuestions = (subQuestions: Question[]) => {
+    return subQuestions.map((subQuestion) => (
+      <View key={subQuestion.id} style={styles.subResultItem}>
+        <Text style={styles.subQuestionText}>{subQuestion.text}</Text>
+        <Text style={styles.subAnswerText}>
+          {Array.isArray(answers[subQuestion.id])
+            ? (answers[subQuestion.id] as string[]).join(", ")
+            : answers[subQuestion.id] || "Not answered"}
+        </Text>
+      </View>
+    ));
+  };
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar backgroundColor="white" style="dark" />
@@ -42,6 +55,7 @@ const ResultScreen = () => {
               ? (answers[question.id] as string[]).join(", ")
               : answers[question.id] || "Not answered"}
           </Text>
+          {question.subQuestions && renderSubQuestions(question.subQuestions)}
         </View>
       ))}
 
@@ -82,6 +96,24 @@ const styles = StyleSheet.create({
   },
   answerText: {
     fontSize: 16,
+    fontFamily: FONT_FAMILY.regular,
+    color: THEME_COLORS.text,
+    marginTop: 5,
+  },
+  subResultItem: {
+    marginLeft: 20,
+    marginTop: 10,
+    borderLeftWidth: 2,
+    borderLeftColor: THEME_COLORS.separator,
+    paddingLeft: 10,
+  },
+  subQuestionText: {
+    fontSize: 16,
+    fontFamily: FONT_FAMILY.medium,
+    color: THEME_COLORS.text,
+  },
+  subAnswerText: {
+    fontSize: 14,
     fontFamily: FONT_FAMILY.regular,
     color: THEME_COLORS.text,
     marginTop: 5,
