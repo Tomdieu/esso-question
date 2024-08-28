@@ -10,12 +10,17 @@ declare interface ButtonProps extends TouchableOpacityProps {
 }
 
 declare interface InputFieldProps extends TextInputProps {
-    label: string;
-    icon?: any;
-    secureTextEntry?: boolean;
-    labelStyle?: string;
-    containerStyle?: string;
-    inputStyle?: string;
-    iconStyle?: string;
-    className?: string;
-  }
+  label: string;
+  icon?: any;
+  secureTextEntry?: boolean;
+  labelStyle?: string;
+  containerStyle?: string;
+  inputStyle?: string;
+  iconStyle?: string;
+  className?: string;
+}
+
+declare interface UserType {
+  username: string;
+  password: string;
+}
