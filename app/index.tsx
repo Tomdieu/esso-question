@@ -20,7 +20,7 @@ export default function Index() {
       <ScrollView className="flex-1">
       <View className="flex-1 justify-center items-center h-full px-5  min-h-[95vh]">
         <TouchableOpacity
-          onPress={() => {}}
+          onPress={() => {router.push("/(auth)/login")}}
           className="w-full flex justify-end items-end p-5"
         >
           <Text className="text-black text-md font-inter-bold">Skip</Text>
