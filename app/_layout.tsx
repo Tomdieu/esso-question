@@ -1,12 +1,9 @@
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { AppRegistry } from "react-native";
-import {
-  MD3LightTheme as DefaultTheme,
-  PaperProvider,
-} from "react-native-paper";
-import { NativeBaseProvider } from "native-base";
+import Toast from "react-native-toast-message";
+import { MD3LightTheme as DefaultTheme } from "react-native-paper";
 
 const theme = {
   ...DefaultTheme,
@@ -37,13 +34,14 @@ export default function RootLayout() {
   if (!loaded) {
     return null;
   }
-
   return (
-    <Stack screenOptions={{animation:"ios",headerShown:false}}>
-      <Stack.Screen name="index" options={{ headerShown:false }} />
-      <Stack.Screen name="(auth)" options={{headerShown:false}} />
-      <Stack.Screen name="questions" options={{presentation:"modal"}} />
-    </Stack>
+    <React.Fragment>
+      <Toast />
+      <Stack screenOptions={{ animation: "ios", headerShown: false }}>
+        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+        <Stack.Screen name="(app)" options={{ headerShown: false }} />
+      </Stack>
+    </React.Fragment>
   );
 }
 
