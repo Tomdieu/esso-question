@@ -7,16 +7,19 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  ToastAndroid,
 } from "react-native";
 import React, { useState } from "react";
 import { images } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form"; // Removed unnecessary 'Form' import
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchemaType } from "@/schema/login.schema";
 import { Eye, EyeOff } from "lucide-react-native";
+import { useAuth } from "@/store/user";
+import Toast from 'react-native-toast-message';
 
 type Props = {};
 
@@ -25,19 +28,49 @@ const LoginScreen = (props: Props) => {
     control,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
+    mode: "all",
   });
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const onSubmit = (data: LoginSchemaType) => {
-    console.log(data);
+  const { user } = useAuth();
+
+  const onSubmit = ({ password, username }: LoginSchemaType) => {
+    if (
+      user?.username.trim() === username.trim() &&
+      user.password.trim() === password.trim()
+    ) {
+      Toast.show({
+        type: 'success', // Use your custom type
+        text1: 'Success',
+        text2: 'Login successfull.',
+      });
+      router.push("/questions/problem");
+    } else {
+      setError("root", {
+        message: "Nom d'utilisateur ou mot de passe incorrecte", 
+      });
+      
+      Toast.show({
+        type: 'error', // Use your custom type
+        text1: 'Error',
+        text2: "Nom d'utilisateur ou mot de passe incorrecte",
+      });
+    }
   };
 
   return (
-    <SafeAreaView className="flex h-full jus)tify-between bg-white ">
-      <ScrollView bounces className="flex-1 bg-white">
+    <SafeAreaView className="flex h-full justify-between bg-white">
+      <ScrollView
+        overScrollMode="never"
+        indicatorStyle="white"
+        showsVerticalScrollIndicator={false}
+        bounces
+        className="flex-1 bg-white"
+      >
         <TouchableWithoutFeedback
           onPress={Keyboard.dismiss}
           className="flex-1  justify-center items-center h-full w-full"
@@ -50,17 +83,27 @@ const LoginScreen = (props: Props) => {
                 resizeMode="contain"
               />
             </View>
-
+            <Text>{JSON.stringify(user)}</Text>
             <View className="px-2 w-full items-center  relative flex-1">
+              {errors.root && (
+                <View className="my-3">
+                  <Text className="text-red-400 font-inter-bold text-base">
+                    {errors.root.message}
+                  </Text>
+                </View>
+              )}
+
               <Controller
                 control={control}
                 name="username"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <View className="gap-y-1 w-full">
-                    <Text className="font-inter-regular text-base">Username</Text>
+                    <Text className="font-inter-regular text-base text-gray-700">
+                      Nom d'utilisateur
+                    </Text>
                     <TextInput
-                      className="py-3 px-2 rounded-md border"
-                      placeholder="Username"
+                      className="py-3 px-2 rounded-md border border-gray-400"
+                      placeholder="Nom d'utilisateur"
                       onBlur={onBlur}
                       onChangeText={onChange}
                       value={value}
@@ -78,12 +121,14 @@ const LoginScreen = (props: Props) => {
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <View className="gap-y-1 w-full">
-                    <Text className="font-inter-regular text-base">Password</Text>
+                    <Text className="font-inter-regular text-base text-gray-700">
+                      Mot de passe
+                    </Text>
 
                     <View className="w-full relative">
                       <TextInput
-                        className="py-3 px-2 rounded-md border w-full"
-                        placeholder="Password"
+                        className="py-3 px-2 rounded-md border border-gray-400 w-full"
+                        placeholder="Mot de passe"
                         secureTextEntry={!showPassword}
                         onBlur={onBlur}
                         onChangeText={onChange}
@@ -91,9 +136,13 @@ const LoginScreen = (props: Props) => {
                       />
                       <TouchableOpacity
                         onPress={() => setShowPassword(!showPassword)}
-                        className="absolute right-1 bottom-1 top-1"
+                        className="absolute right-1 bottom-1 top-1 bg-gray-50 items-center justify-center p-2 rounded-md"
                       >
-                        {showPassword ? <EyeOff /> : <Eye />}
+                        {showPassword ? (
+                          <EyeOff className="text-gray-500 w-8 h-8" />
+                        ) : (
+                          <Eye className="text-gray-500 w-8 h-8" />
+                        )}
                       </TouchableOpacity>
                     </View>
                     {errors.password && (
@@ -114,22 +163,21 @@ const LoginScreen = (props: Props) => {
                   justifyContent: "center",
                 }}
                 className="bg-blue-600 px-5 py-3 rounded-md w-full font-inter-medium flex items-center flex-col"
-                onPress={() => {
-                  alert("Hello submitting");
-                  handleSubmit(onSubmit);
-                }}
+                onPress={handleSubmit(onSubmit)}
               >
                 <Text
                   style={{ fontWeight: "medium" }}
                   className="text-xl font-inter-regular text-center text-white"
                 >
-                  Sign In
+                  Se connecter
                 </Text>
               </TouchableOpacity>
               <View className="gap-y-3 flex-row gap-x-1 items-center">
-                <Text className="text-base font-inter-regular">Je n'ai pas de compte</Text>
+                <Text className="text-base font-inter-regular">
+                  Je n'ai pas de compte
+                </Text>
                 <Link href={"/(auth)/register"}>
-                  <Text className="text-base font-inter-bold">Cree</Text>
+                  <Text className="text-base font-inter-bold">Créer</Text>
                 </Link>
               </View>
             </View>
