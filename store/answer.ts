@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { persist } from 'zustand/middleware';
+import { createJSONStorage, persist } from 'zustand/middleware';
 import {
   FormeCapitatlisationType,
   IdeeType,
@@ -40,8 +40,8 @@ type IdeogrammeStore = {
   reset: () => void;
 };
 
-export const useIdeogrammeStore = create<IdeogrammeStore>()(
-  persist(
+export const useIdeogrammeStore = create(
+  persist<IdeogrammeStore>(
     (set) => ({
       problem: undefined,
       solution: undefined,
@@ -82,7 +82,7 @@ export const useIdeogrammeStore = create<IdeogrammeStore>()(
     }),
     {
       name: 'ideogramme-storage', // unique name for the storage key
-      getStorage: () => AsyncStorage, // use AsyncStorage for persistence
+      storage: createJSONStorage(()=>AsyncStorage), // use AsyncStorage for persistence
     }
   )
 );

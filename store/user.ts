@@ -1,7 +1,7 @@
 import { UserType } from "@/types";
 import { create } from "zustand";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { persist } from "zustand/middleware";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 type UserStore = {
   user?: UserType;
@@ -9,8 +9,8 @@ type UserStore = {
   logout: () => void;
 };
 
-export const useAuth = create<UserStore>()(
-  persist(
+export const useAuth = create(
+  persist<UserStore>(
     (set) => ({
       user: undefined,
       setUser: (user) => set({ user }),
@@ -18,7 +18,7 @@ export const useAuth = create<UserStore>()(
     }),
     {
       name: "auth", // unique name for your storage
-      getStorage: () => AsyncStorage, // returns the storage object, not a promise
+      storage: createJSONStorage(()=>AsyncStorage), // use `storage` instead of `getStorage`
     }
   )
 );
