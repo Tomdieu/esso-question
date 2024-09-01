@@ -1,13 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import React, { useRef, useState } from "react";
-import { questions } from "@/constants/questions";
-import { Link, useNavigation } from "expo-router";
+import { FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React from "react";
+import { Href, Link } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Swiper from "react-native-swiper";
+import { Ionicons } from '@expo/vector-icons';; // You might need to install this: npx expo install @expo/vector-icons
 
 // Define theme colors and fonts
 const THEME_COLORS = {
-  primary: "#f4511e", // Example color, customize to your liking
+  primary: "#f4511e",
   background: "#fff",
   text: "#333",
 };
@@ -18,39 +17,48 @@ const FONT_FAMILY = {
   bold: "InterBold",
 };
 
-const Questions = () => {
-  const swiperRef = useRef<Swiper>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+type LinkType = {
+  label: string;
+  route: Href<string | object>;
+  iconName: React.ComponentProps<typeof Ionicons>["name"]; // Add icon name to your link data
+  // icon: React.ComponentProps<typeof IoniconsType>["name"];
+};
 
+const links: LinkType[] = [
+  { label: "Problème", route: "/questions/problem", iconName: 'alert-circle-outline' }, // Updated label and icon name 
+  { label: "Solution", route: "/questions/solution", iconName: 'bulb-outline' },
+  { label: "Résultat", route: "/questions/resultat", iconName: 'checkmark-circle-outline' }, 
+  { label: "Outil de développement", route: "/questions/outil_developement", iconName: 'code-slash-outline' }, 
+  { label: "Voie de consommation", route: "/questions/voie_consomation", iconName: 'trending-up-outline' },
+  { label: "Forme de capitalisation", route: "/questions/forme_capitatlisation", iconName: 'cash-outline' },
+  { label: "Modèle architectural", route: "/questions/modele_architectural", iconName: 'layers-outline' },
+  { label: "Structurateur", route: "/questions/structurateur", iconName: 'build-outline' },
+  { label: "Idée", route: "/questions/idee", iconName: 'bulb-outline' },
+  { label: "Mode de pensée", route: "/questions/mode_de_pensee", iconName: 'briefcase' },
+];
+
+const Questions = () => {
   return (
     <SafeAreaView className="flex h-full bg-white">
       <View style={styles.container}>
         <Text style={styles.title}>Ideogramme</Text>
-        <View className="flex-1 items-center justify-center">
-          <Text className="text-2xl text-center">Vous devez répondre à cette série de questions.</Text>
-        </View>
-        {/* <Swiper
-          ref={swiperRef}
-          loop={false}
-          dot={
-            <View className="w-[20px] h-[4px] mx-1 bg-[#E2E8F0] rounded-full" />
-          }
-          activeDot={
-            <View className="w-[20px] h-[4px] mx-1 bg-[#000] rounded-full" />
-          }
-          onIndexChanged={(index) => setActiveIndex(index)}
-        >
-          {questions.map((question)=>(
-            <View key={question.id} className="flex items-center justify-center flex-1">
-              <Text className="text-2xl font-bold text-center">{question.text}</Text>
-            </View>
-          ))}
-        </Swiper> */}
-        <Link href={`/questions/problem`} asChild>
-          <TouchableOpacity style={styles.button} className="w-full bg-blue-600">
-            <Text style={styles.buttonText}>Debuter</Text>
-          </TouchableOpacity>
-        </Link>
+        <FlatList
+          data={links}
+          showsVerticalScrollIndicator={false}
+          keyExtractor={(item) => item.label}
+          renderItem={({ item }) => (
+            <Link href={item.route} asChild>
+              <TouchableOpacity style={styles.linkButton}>
+                <View style={styles.iconContainer}> {/* Container for the icon */}
+                  <Ionicons name={item.iconName} size={24} color="white" />
+                </View>
+                <Text style={styles.linkButtonText}>{item.label}</Text>
+              </TouchableOpacity>
+            </Link>
+          )}
+          numColumns={2}
+          columnWrapperStyle={styles.row}
+        />
       </View>
     </SafeAreaView>
   );
@@ -70,14 +78,33 @@ const styles = StyleSheet.create({
     fontFamily: FONT_FAMILY.bold,
     color: THEME_COLORS.text,
   },
-  button: {
+
+  row: {
+    flex: 1,
+    justifyContent: "space-around",
+    marginBottom: 10,
+  },
+
+  linkButton: {
+    backgroundColor: '#4BB543', 
     padding: 15,
     borderRadius: 8,
+    flex: 1,
+    marginHorizontal: 5,
+    marginVertical: 5,
+    alignItems: "center", 
   },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
+
+  linkButtonText: {
+    fontSize: 16,
     fontFamily: FONT_FAMILY.medium,
     textAlign: "center",
+    flexWrap: "wrap",
+    color: 'white', // Set text color to white
+  },
+
+  // Style for the icon container
+  iconContainer: {
+    marginBottom: 8, 
   },
 });
