@@ -14,7 +14,7 @@ import { images } from "@/constants";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
 
-import { Controller, useForm } from "react-hook-form"; // Removed unnecessary 'Form' import
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, LoginSchemaType } from "@/schema/login.schema";
 import { Eye, EyeOff } from "lucide-react-native";
@@ -24,6 +24,7 @@ import Toast from 'react-native-toast-message';
 type Props = {};
 
 const LoginScreen = (props: Props) => {
+  const { user } = useAuth();
   const {
     control,
     handleSubmit,
@@ -32,11 +33,14 @@ const LoginScreen = (props: Props) => {
   } = useForm<LoginSchemaType>({
     resolver: zodResolver(loginSchema),
     mode: "all",
+    defaultValues:{
+      username:user?.username,
+      password:user?.password
+    }
   });
 
   const [showPassword, setShowPassword] = useState(false);
 
-  const { user } = useAuth();
 
   const onSubmit = ({ password, username }: LoginSchemaType) => {
     if (
@@ -48,7 +52,7 @@ const LoginScreen = (props: Props) => {
         text1: 'Success',
         text2: 'Login successfull.',
       });
-      router.push("/questions/problem");
+      router.push("/(app)/(tabs)/questions/");
     } else {
       setError("root", {
         message: "Nom d'utilisateur ou mot de passe incorrecte", 
@@ -83,7 +87,6 @@ const LoginScreen = (props: Props) => {
                 resizeMode="contain"
               />
             </View>
-            <Text>{JSON.stringify(user)}</Text>
             <View className="px-2 w-full items-center  relative flex-1">
               {errors.root && (
                 <View className="my-3">
