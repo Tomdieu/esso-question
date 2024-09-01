@@ -1,6 +1,12 @@
-import { Stack } from "expo-router";
+import { useAuth } from "@/store/user";
+import { Redirect, Stack } from "expo-router";
 
 export default function AuthLayout() {
+
+  const {user} = useAuth()
+  if(user){
+    return <Redirect href={"/(app)/(tabs)/"}/>
+  }
   return (
     <Stack screenOptions={{ headerShown: false,animation:"slide_from_right" }}>
       <Stack.Screen name="index" />
