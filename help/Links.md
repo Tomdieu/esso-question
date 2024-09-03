@@ -1,2 +1,3 @@
 - https://gluestack.io/ui/docs/home/getting-started/installation
 - https://rnr-docs.vercel.app/getting-started/introduction/
+- https://chatgpt.com/share/e22dfb09-44bb-4d0e-b170-2577cb7691b8
