@@ -3,16 +3,6 @@ import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect } from "react";
 import { AppRegistry } from "react-native";
 import Toast from "react-native-toast-message";
-import { MD3LightTheme as DefaultTheme } from "react-native-paper";
-
-const theme = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    primary: "tomato",
-    secondary: "yellow",
-  },
-};
 
 SplashScreen.preventAutoHideAsync();
 

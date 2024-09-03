@@ -15,7 +15,7 @@ import { ArrowRight } from "lucide-react-native";
 export default function Index() {
   return (
     <SafeAreaView className="flex h-full justify-between bg-white ">
-      <ScrollView className="flex-1">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} >
       <View className="flex-1 justify-center items-center h-full px-5  min-h-[95vh]">
         {/* <TouchableOpacity
           onPress={() => {router.push("/(auth)/login")}}

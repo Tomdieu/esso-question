@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
   Keyboard,
+  ToastAndroid,
 } from "react-native";
 import React, { useState } from "react";
 import { images } from "@/constants";
@@ -41,6 +42,7 @@ const RegisterScreen = (props: Props) => {
       password:password.trim()
     })
     router.push("/login")
+    ToastAndroid.showWithGravity("Compte cree avec success",3000,ToastAndroid.TOP)
   };
 
   return (
