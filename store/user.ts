@@ -13,12 +13,15 @@ export const useAuth = create(
   persist<UserStore>(
     (set) => ({
       user: undefined,
+      isLogin: false,
       setUser: (user) => set({ user }),
-      logout: () => set({ user: undefined }),
+      logout: () => {
+        set({ user: undefined });
+      },
     }),
     {
       name: "auth", // unique name for your storage
-      storage: createJSONStorage(()=>AsyncStorage), // use `storage` instead of `getStorage`
+      storage: createJSONStorage(() => AsyncStorage), // use `storage` instead of `getStorage`
     }
   )
 );
