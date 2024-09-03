@@ -6,7 +6,7 @@ import { List, HomeIcon, Notebook, FileChartColumn, SquarePen } from "lucide-rea
 
 const TabLayout = () => {
   return (
-    <Tabs screenOptions={{ headerShown: false }} initialRouteName="index">
+    <Tabs screenOptions={{ headerShown: false,tabBarHideOnKeyboard:true }} initialRouteName="index">
       <Tabs.Screen
         name="index"
         options={{

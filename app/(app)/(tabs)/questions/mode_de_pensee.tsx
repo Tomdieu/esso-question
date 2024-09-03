@@ -8,11 +8,11 @@ import {
     ScrollView,
   } from "react-native";
   import React, { useState } from "react";
-  import { IdeeSchema, ModeDePenseeSchema, ProblemSchema } from "@/schema/index.schema";
+  import { ModeDePenseeSchema } from "@/schema/index.schema";
   import { ZodError } from "zod";
-  import { SafeAreaView } from "react-native-safe-area-context";
   import { cn } from "@/lib/utils";
   import { router } from "expo-router";
+import { useIdeogrammeStore } from "@/store/answer";
   
   type Props = {};
   
@@ -21,6 +21,8 @@ import {
       mode_de_pensee: "",
     });
     const [errors, setErrors] = useState<any>({});
+
+    const {setModeDePensee} = useIdeogrammeStore()
   
     const handleChange = (name: string, value: string) => {
       setFormValues({
@@ -33,7 +35,8 @@ import {
       try {
         ModeDePenseeSchema.parse(formValues);
         setErrors({})
-        router.push("/questions/results")
+        setModeDePensee(formValues)
+        router.push("/(app)/(tabs)/output")
       } catch (error) {
         if (error instanceof ZodError) {
           const formattedError = error.errors.reduce((acc:any, curr) => {
@@ -46,14 +49,14 @@ import {
     };
   
     return (
-      <SafeAreaView className="flex-1 bg-white py-4 px-3">
-        <ScrollView className="flex-1">
+      <View className="flex-1 bg-white py-2 px-3">
+        <ScrollView className="flex-1" showsVerticalScrollIndicator={false} >
           <TouchableWithoutFeedback
             onPress={Keyboard.dismiss}
             className="flex-1 min-h-[95vh] justify-center items-center h-full"
           >
             <View className="flex-1">
-              <View className="flex-1 gap-5 pt-8">
+              <View className="flex-1 gap-5 pt-2">
                 <Text className="text-2xl font-inter-medium">
                 Choisir le mode de pensée :
                 </Text>
@@ -87,7 +90,7 @@ import {
         >
           <Text className="text-xl text-white font-inter-regular">Next</Text>
         </TouchableOpacity>
-      </SafeAreaView>
+      </View>
     );
   };
   

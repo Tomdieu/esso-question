@@ -20,7 +20,7 @@ const FONT_FAMILY = {
 type LinkType = {
   label: string;
   route: Href<string | object>;
-  iconName: React.ComponentProps<typeof Ionicons>["name"]; // Add icon name to your link data
+  iconName: React.ComponentProps<typeof Ionicons>["name"];
   // icon: React.ComponentProps<typeof IoniconsType>["name"];
 };
 
@@ -39,18 +39,18 @@ const links: LinkType[] = [
 
 const Questions = () => {
   return (
-    <SafeAreaView className="flex h-full bg-white">
-      <View style={styles.container}>
-        <Text style={styles.title}>Ideogramme</Text>
+    <SafeAreaView className="flex flex-1 h-full bg-white">
+      <View style={styles.container} className="p-2">
+        <Text style={styles.title} className="py-2">Ideogramme</Text>
         <FlatList
           data={links}
           showsVerticalScrollIndicator={false}
           keyExtractor={(item) => item.label}
           renderItem={({ item }) => (
             <Link href={item.route} asChild>
-              <TouchableOpacity style={styles.linkButton}>
-                <View style={styles.iconContainer}> {/* Container for the icon */}
-                  <Ionicons name={item.iconName} size={24} color="white" />
+              <TouchableOpacity style={styles.linkButton} className="bg-blue-500">
+                <View style={styles.iconContainer}>
+                  <Ionicons name={item.iconName} size={32} color="white" />
                 </View>
                 <Text style={styles.linkButtonText}>{item.label}</Text>
               </TouchableOpacity>
@@ -69,12 +69,10 @@ export default Questions;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     backgroundColor: THEME_COLORS.background,
   },
   title: {
     fontSize: 32,
-    marginBottom: 30,
     fontFamily: FONT_FAMILY.bold,
     color: THEME_COLORS.text,
   },
@@ -86,12 +84,11 @@ const styles = StyleSheet.create({
   },
 
   linkButton: {
-    backgroundColor: '#4BB543', 
     padding: 15,
     borderRadius: 8,
     flex: 1,
     marginHorizontal: 5,
-    marginVertical: 5,
+    // marginVertical: 5,
     alignItems: "center", 
   },
 
@@ -102,8 +99,6 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     color: 'white', // Set text color to white
   },
-
-  // Style for the icon container
   iconContainer: {
     marginBottom: 8, 
   },

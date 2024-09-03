@@ -94,14 +94,14 @@ const VoieConsomationScreen = (props: Props) => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-white py-4 px-3">
-      <ScrollView className="flex-1">
+    <View className="flex-1 bg-white py-2 px-3">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} >
         <TouchableWithoutFeedback
           onPress={Keyboard.dismiss}
           className="flex-1 min-h-[95vh] justify-center items-center h-full"
         >
           <View className="flex-1">
-            <View className="flex-1 gap-5 pt-8">
+            <View className="flex-1 gap-5 pt-2">
               <Text className="text-2xl font-inter-medium">
                 Quelle est la voie de consommation ?
               </Text>
@@ -156,7 +156,7 @@ const VoieConsomationScreen = (props: Props) => {
       >
         <Text className="text-xl text-white font-inter-regular">Next</Text>
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 

@@ -8,22 +8,34 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import { ProblemSchema } from "@/schema/index.schema";
+import { ProblemSchema, ProblemSchemaType } from "@/schema/index.schema";
 import { ZodError } from "zod";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { cn } from "@/lib/utils";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useIdeogrammeStore } from "@/store/answer";
+
+// import { Controller, useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {};
 
 const ProblemScreen = (props: Props) => {
+  const {problem} = useLocalSearchParams<{problem:string}>()
   const [formValues, setFormValues] = useState({
-    problem: "",
+    problem: problem || "",
   });
   const [errors, setErrors] = useState<any>({});
 
   const { setProblem } = useIdeogrammeStore();
+
+  // const {
+  //   control,
+  //   handleSubmit,
+  //   formState: { errors },
+  // } = useForm<ProblemSchemaType>({
+  //   resolver: zodResolver(ProblemSchema),
+  //   mode: "all",
+  // });
 
   const handleChange = (name: string, value: string) => {
     setFormValues({
@@ -73,13 +85,13 @@ const ProblemScreen = (props: Props) => {
 
   return (
     <View className="flex-1 bg-white py-4 px-3">
-      <ScrollView className="flex-1">
+      <ScrollView className="flex-1" showsVerticalScrollIndicator={false} >
         <TouchableWithoutFeedback
           onPress={Keyboard.dismiss}
           className="flex-1 min-h-[95vh] justify-center items-center h-full"
         >
           <View className="flex-1">
-            <View className="flex-1 gap-5 pt-8">
+            <View className="flex-1 gap-5 pt-4">
               <Text className="text-2xl font-inter-medium">
                 Quel est votre problème ?
               </Text>
