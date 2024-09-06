@@ -71,7 +71,7 @@ const ProblemScreen = (props: Props) => {
       ProblemSchema.parse(formValues);
       setErrors({});
       setProblem(formValues);
-      router.push("/questions/solution");
+      router.push("/questions/mode_de_pensee");
     } catch (error) {
       if (error instanceof ZodError) {
         const formattedError = error.errors.reduce((acc: any, curr) => {

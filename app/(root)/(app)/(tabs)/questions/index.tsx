@@ -26,6 +26,7 @@ type LinkType = {
 
 const links: LinkType[] = [
   { label: "Problème", route: "/questions/problem", iconName: 'alert-circle-outline' }, // Updated label and icon name 
+  { label: "Mode de pensée", route: "/questions/mode_de_pensee", iconName: 'briefcase' },
   { label: "Solution", route: "/questions/solution", iconName: 'bulb-outline' },
   { label: "Résultat", route: "/questions/resultat", iconName: 'checkmark-circle-outline' }, 
   { label: "Outil de développement", route: "/questions/outil_developement", iconName: 'code-slash-outline' }, 
@@ -34,14 +35,13 @@ const links: LinkType[] = [
   { label: "Modèle architectural", route: "/questions/modele_architectural", iconName: 'layers-outline' },
   { label: "Structurateur", route: "/questions/structurateur", iconName: 'build-outline' },
   { label: "Idée", route: "/questions/idee", iconName: 'bulb-outline' },
-  { label: "Mode de pensée", route: "/questions/mode_de_pensee", iconName: 'briefcase' },
 ];
 
 const Questions = () => {
   return (
     <SafeAreaView className="flex flex-1 h-full bg-white">
       <View style={styles.container} className="p-2">
-        <Text style={styles.title} className="py-2">Ideogramme</Text>
+        <Text style={styles.title} className="py-2">ESSO OD</Text>
         <FlatList
           data={links}
           showsVerticalScrollIndicator={false}

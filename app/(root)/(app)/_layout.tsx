@@ -38,7 +38,7 @@ const AppLayout = () => {
               resizeMode="contain"
               source={images.LogoImage}
             />
-            <DrawerItemList {...props} />
+            {/* <DrawerItemList  {...props} /> */}
             <DrawerItem
               label={"Output"}
               onPress={() => {
@@ -55,7 +55,7 @@ const AppLayout = () => {
               inactiveBackgroundColor="#e5e7eb"
               focused={pathName === "/output"}
             />
-            <DrawerItem
+            {/* <DrawerItem
               label={"About"}
               onPress={() => {
                 router.push("/(app)/(tabs)/output");
@@ -70,7 +70,7 @@ const AppLayout = () => {
               activeBackgroundColor="#dbeafe"
               inactiveBackgroundColor="#e5e7eb"
               focused={pathName === "/output"}
-            />
+            /> */}
             <Seperator />
             <TouchableOpacity
               onPress={logout}

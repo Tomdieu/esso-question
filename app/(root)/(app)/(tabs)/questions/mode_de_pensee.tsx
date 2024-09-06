@@ -8,58 +8,35 @@ import {
     ScrollView,
   } from "react-native";
   import React, { useState } from "react";
-  import { ProblemSchema, SolutionSchema } from "@/schema/index.schema";
+  import { ModeDePenseeSchema } from "@/schema/index.schema";
   import { ZodError } from "zod";
-  import { SafeAreaView } from "react-native-safe-area-context";
   import { cn } from "@/lib/utils";
-import { router } from "expo-router";
+  import { router } from "expo-router";
 import { useIdeogrammeStore } from "@/store/answer";
   
   type Props = {};
   
-  const SolutionScreen = (props: Props) => {
+  const ModeDePenseeScreen = (props: Props) => {
     const [formValues, setFormValues] = useState({
-      solution: "",
+      mode_de_pensee: "",
     });
     const [errors, setErrors] = useState<any>({});
 
-    const {setSolution} = useIdeogrammeStore()
+    const {setModeDePensee} = useIdeogrammeStore()
   
     const handleChange = (name: string, value: string) => {
       setFormValues({
         ...formValues,
         [name]: value,
       });
-
-      // Live validation on change
-      try {
-        SolutionSchema.parse({ [name]: value });
-        setErrors((prevErrors: any) => ({
-          ...prevErrors,
-          [name]: undefined, // Clear the error for this field if it's valid
-        }));
-      } catch (error) {
-        if (error instanceof ZodError) {
-          const formattedError = error.errors.reduce((acc: any, curr) => {
-            if (curr.path[0] === name) {
-              acc[curr.path[0]] = curr.message;
-            }
-            return acc;
-          }, {});
-          setErrors((prevErrors: any) => ({
-            ...prevErrors,
-            ...formattedError,
-          }));
-        }
-      }
     };
   
     const handleSubmit = () => {
       try {
-        SolutionSchema.parse(formValues);
+        ModeDePenseeSchema.parse(formValues);
         setErrors({})
-        setSolution(formValues)
-        router.push("/questions/resultat")
+        setModeDePensee(formValues)
+        router.push("/(app)/(tabs)/questions/solution")
       } catch (error) {
         if (error instanceof ZodError) {
           const formattedError = error.errors.reduce((acc:any, curr) => {
@@ -79,27 +56,27 @@ import { useIdeogrammeStore } from "@/store/answer";
             className="flex-1 min-h-[95vh] justify-center items-center h-full"
           >
             <View className="flex-1">
-              <View className="flex-1 gap-5 pt-4">
+              <View className="flex-1 gap-5 pt-2">
                 <Text className="text-2xl font-inter-medium">
-                Quelle est votre solution ?
+                Choisir le mode de pensée :
                 </Text>
   
                 <View className="mb-3 space-y-2">
                   <TextInput
-                    placeholder="Solution..."
-                    value={formValues.solution}
-                    onChangeText={(value) => handleChange("solution", value)}
+                    placeholder="Mode de pensee..."
+                    value={formValues.mode_de_pensee}
+                    onChangeText={(value) => handleChange("mode_de_pensee", value)}
                     className={cn(
                       "p-3 rounded-md border-gray-500 border-2 bg-white placeholder:text-2xl placeholder:font-inter-regular",
-                      { "border-red-500": errors.solution }
+                      { "border-red-500": errors.mode_de_pensee }
                     )}
                   />
-                  {errors.solution && (
+                  {errors.mode_de_pensee && (
                     <Text
                       style={{ color: "red" }}
                       className="text-sm font-inter-regular"
                     >
-                      {errors.solution}
+                      {errors.mode_de_pensee}
                     </Text>
                   )}
                 </View>
@@ -117,5 +94,5 @@ import { useIdeogrammeStore } from "@/store/answer";
     );
   };
   
-  export default SolutionScreen;
+  export default ModeDePenseeScreen;
   
