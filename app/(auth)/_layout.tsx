@@ -5,7 +5,7 @@ export default function AuthLayout() {
 
   const {user} = useAuth()
   if(user){
-    return <Redirect href={"/(app)/(tabs)/"}/>
+    return <Redirect href={"/(root)/(app)/(tabs)/"}/>
   }
   return (
     <Stack screenOptions={{ headerShown: false,animation:"slide_from_right" }}>

@@ -30,7 +30,7 @@ export default function RootLayout() {
       <Toast />
       <Stack screenOptions={{ animation: "ios", headerShown: false }}>
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="(app)" options={{ headerShown: false }} />
+        <Stack.Screen name="(root)" options={{ headerShown: false }} />
       </Stack>
     </React.Fragment>
   );
