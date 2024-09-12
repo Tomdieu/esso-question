@@ -3,7 +3,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuth } from "@/store/user";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "expo-router";
+import { Link, router, useNavigation } from "expo-router";
 import { DrawerActions } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 
@@ -44,14 +44,13 @@ const Index = (props: Props) => {
               />
             </View>
             <TouchableOpacity>
-
-            <View className="bg-white h-24 w-24 p-1">
-              <Text className="font-inter-medium font-bold">Photo 4x4</Text>
-              <Text className="font-inter-medium font-bold">Nom</Text>
-              <Text className="font-inter-medium font-bold">
-                Identite professionelle
-              </Text>
-            </View>
+              <View className="bg-white h-24 w-24 p-1">
+                <Text className="font-inter-medium font-bold">Photo 4x4</Text>
+                <Text className="font-inter-medium font-bold">Nom</Text>
+                <Text className="font-inter-medium font-bold">
+                  Identite professionelle
+                </Text>
+              </View>
             </TouchableOpacity>
           </View>
 
@@ -75,11 +74,15 @@ const Index = (props: Props) => {
                 <Text className="font-inter-bold text-xl">CATA</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity>
-              <View className="bg-white h-24 w-24 flex items-center justify-center">
-                <Text className="font-inter-bold text-xl">IDEO</Text>
-              </View>
-            </TouchableOpacity>
+            <Link href={"/(root)/creativite"}>
+              <TouchableOpacity onPress={()=>{
+                router.push("/(root)/creativite/")
+              }}>
+                <View className="bg-white h-24 w-24 flex items-center justify-center">
+                  <Text className="font-inter-bold text-xl">IDEO</Text>
+                </View>
+              </TouchableOpacity>
+            </Link>
             <TouchableOpacity>
               <View className="bg-white h-24 w-24 flex items-center justify-center">
                 <Text className="font-inter-bold text-xl">ETS</Text>

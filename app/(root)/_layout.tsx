@@ -9,7 +9,7 @@ const RootLayout = (props: Props) => {
   if (!user) {
     return <Redirect href={"/(auth)/login"} />;
   }
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return <Stack screenOptions={{ headerShown: false,animation:"ios" }} />;
 };
 
 export default RootLayout;
