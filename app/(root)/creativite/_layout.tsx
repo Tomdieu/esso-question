@@ -7,17 +7,23 @@ type Props = {};
 const CreativiteLayout = (props: Props) => {
   return (
     <Stack screenOptions={{ animation: "ios" }}>
+      <Stack.Screen name="index" options={{ headerTitle: "Creativite" }} />
+      <Stack.Screen name="create" options={{ headerTitle: "Create Creativite" }} />
+
       <Stack.Screen
-        name="index"
+        name="[id]"
         options={{
-            headerStyle:{
-                backgroundColor:"#3b82f6"
-            },
+          headerStyle: {
+            backgroundColor: "#3b82f6",
+          },
           headerRight(props) {
             return (
-              <TouchableOpacity onPress={()=>{
-                router.back()
-              }} className="p-1 bg-white">
+              <TouchableOpacity
+                onPress={() => {
+                  router.back();
+                }}
+                className="p-1 bg-white"
+              >
                 <Text className="font-inter-bold text-xl text-orange-500">
                   Retour
                 </Text>
