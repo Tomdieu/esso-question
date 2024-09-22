@@ -11,11 +11,13 @@ import {
   ModeleArchitecturalType,
   IdeoGrammeType,
 } from "@/schema/index.schema";
-import { v4 as uuidv4 } from "uuid";
+import uuid from 'react-native-uuid';
 
-export const generateIdeoGramme = (): IdeoGrammeType => {
+
+export const generateIdeoGramme = (project_name:string): IdeoGrammeType => {
   return {
-    id: uuidv4(),
+    id: uuid.v4() as string,
+    project_name,
     problems: createProblems(4),
     solutions: createSolutions(4),
     resultats: createResultats(4),
@@ -34,7 +36,7 @@ export const createProblems = (size: number) => {
   Array.from({ length: size }).map(() => {
     const pb: ProblemSchemaType = {
       problem: "",
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     problems.push(pb);
   });
@@ -46,7 +48,7 @@ export const createSolutions = (size: number) => {
   Array.from({ length: size }).map(() => {
     const sol: SolutionType = {
       solution: "",
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     solutions.push(sol);
   });
@@ -58,7 +60,7 @@ export const createResultats = (size: number) => {
   Array.from({ length: size }).map(() => {
     const re: ResultatType = {
       resultat: "",
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     resultats.push(re);
   });
@@ -70,7 +72,7 @@ export const createOutilsDevelopement = (size: number) => {
   Array.from({ length: size }).map(() => {
     const outil: OutilDevelopementType = {
       outil_developement: [],
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     outils.push(outil);
   });
@@ -82,7 +84,7 @@ export const createVoiesConsomation = (size: number) => {
   Array.from({ length: size }).map(() => {
     const voie: VoieConsomationType = {
       voie_consomation: [],
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     voies.push(voie);
   });
@@ -94,7 +96,7 @@ export const createFormesCapitatlisation = (size: number) => {
   Array.from({ length: size }).map(() => {
     const forme: FormeCapitatlisationType = {
       forme_capitatlisation: "",
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     formes.push(forme);
   });
@@ -107,7 +109,7 @@ export const createModelesArchitectural = (size: number) => {
     const modele: ModeleArchitecturalType = {
       modele_architectural: "",
       configuration: [],
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     modeles.push(modele);
   });
@@ -121,7 +123,7 @@ export const createStructurateurs = (size: number) => {
       structurateur: "",
       natures: [],
       actions: [],
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     structurateurs.push(structurateur);
   });
@@ -133,7 +135,7 @@ export const createIdees = (size: number) => {
   Array.from({ length: size }).map(() => {
     const idee: IdeeType = {
       idee: "",
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     idees.push(idee);
   });
@@ -145,7 +147,7 @@ export const createModesDePensee = (size: number) => {
   Array.from({ length: size }).map(() => {
     const mode: ModeDePenseeType = {
       mode_de_pensee: "",
-      id: uuidv4(),
+      id: uuid.v4() as string,
     };
     modes.push(mode);
   });

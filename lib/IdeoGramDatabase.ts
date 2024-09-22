@@ -1,5 +1,4 @@
-import { v4 as uuidv4 } from "uuid";
-
+import uuid from 'react-native-uuid';
 import {
   IdeoGrammeType,
   ProblemSchemaType,
@@ -17,9 +16,10 @@ import { useIdeoGramStore } from "@/store/ideogram";
 
 
 export class IdeoGramm {
-  static create(): IdeoGrammeType {
+  static create(project_name:string): IdeoGrammeType {
     const newIdeoGramme: IdeoGrammeType = {
-      id: uuidv4(),
+      id:uuid.v4() as string,
+      project_name,
       problems: this.createProblems(4),
       solutions: this.createSolutions(4),
       resultats: this.createResultats(4),
@@ -52,42 +52,42 @@ export class IdeoGramm {
   static createProblems(size: number): ProblemSchemaType[] {
     return Array.from({ length: size }).map(() => ({
       problem: "",
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
   static createSolutions(size: number): SolutionType[] {
     return Array.from({ length: size }).map(() => ({
       solution: "",
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
   static createResultats(size: number): ResultatType[] {
     return Array.from({ length: size }).map(() => ({
       resultat: "",
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
   static createOutilsDevelopement(size: number): OutilDevelopementType[] {
     return Array.from({ length: size }).map(() => ({
       outil_developement: [],
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
   static createVoiesConsomation(size: number): VoieConsomationType[] {
     return Array.from({ length: size }).map(() => ({
       voie_consomation: [],
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
   static createFormesCapitatlisation(size: number): FormeCapitatlisationType[] {
     return Array.from({ length: size }).map(() => ({
       forme_capitatlisation: "",
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
@@ -95,7 +95,7 @@ export class IdeoGramm {
     return Array.from({ length: size }).map(() => ({
       modele_architectural: "",
       configuration: [],
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
@@ -104,21 +104,21 @@ export class IdeoGramm {
       structurateur: "",
       natures: [],
       actions: [],
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
   static createIdees(size: number): IdeeType[] {
     return Array.from({ length: size }).map(() => ({
       idee: "",
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
   static createModesDePensee(size: number): ModeDePenseeType[] {
     return Array.from({ length: size }).map(() => ({
       mode_de_pensee: "",
-      id: uuidv4(),
+      id:uuid.v4() as string,
     }));
   }
 
@@ -228,52 +228,52 @@ export class IdeoGramm {
   // Add functions for each array
 
   static addProblem(ideogram: IdeoGrammeType): void {
-    ideogram.problems.push({ problem: "", id: uuidv4() });
+    ideogram.problems.push({ problem: "", id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { problems: ideogram.problems });
   }
 
   static addSolution(ideogram: IdeoGrammeType): void {
-    ideogram.solutions.push({ solution: "", id: uuidv4() });
+    ideogram.solutions.push({ solution: "", id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { solutions: ideogram.solutions });
   }
 
   static addResultat(ideogram: IdeoGrammeType): void {
-    ideogram.resultats.push({ resultat: "", id: uuidv4() });
+    ideogram.resultats.push({ resultat: "", id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { resultats: ideogram.resultats });
   }
 
   static addOutilDevelopement(ideogram: IdeoGrammeType): void {
-    ideogram.outilsDevelopement.push({ outil_developement: [], id: uuidv4() });
+    ideogram.outilsDevelopement.push({ outil_developement: [], id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { outilsDevelopement: ideogram.outilsDevelopement });
   }
 
   static addVoieConsomation(ideogram: IdeoGrammeType): void {
-    ideogram.voiesConsomation.push({ voie_consomation: [], id: uuidv4() });
+    ideogram.voiesConsomation.push({ voie_consomation: [], id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { voiesConsomation: ideogram.voiesConsomation });
   }
 
   static addFormeCapitatlisation(ideogram: IdeoGrammeType): void {
-    ideogram.formesCapitatlisation.push({ forme_capitatlisation: "", id: uuidv4() });
+    ideogram.formesCapitatlisation.push({ forme_capitatlisation: "", id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { formesCapitatlisation: ideogram.formesCapitatlisation });
   }
 
   static addModeleArchitectural(ideogram: IdeoGrammeType): void {
-    ideogram.modelesArchitectural.push({ modele_architectural: "", configuration: [], id: uuidv4() });
+    ideogram.modelesArchitectural.push({ modele_architectural: "", configuration: [], id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { modelesArchitectural: ideogram.modelesArchitectural });
   }
 
   static addStructurateur(ideogram: IdeoGrammeType): void {
-    ideogram.structurateurs.push({ structurateur: "", natures: [], actions: [], id: uuidv4() });
+    ideogram.structurateurs.push({ structurateur: "", natures: [], actions: [], id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { structurateurs: ideogram.structurateurs });
   }
 
   static addIdee(ideogram: IdeoGrammeType): void {
-    ideogram.idees.push({ idee: "", id: uuidv4() });
+    ideogram.idees.push({ idee: "", id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { idees: ideogram.idees });
   }
 
   static addModeDePensee(ideogram: IdeoGrammeType): void {
-    ideogram.modesDePensee.push({ mode_de_pensee: "", id: uuidv4() });
+    ideogram.modesDePensee.push({ mode_de_pensee: "", id:uuid.v4() as string });
     useIdeoGramStore.getState().updateIdeogram(ideogram.id, { modesDePensee: ideogram.modesDePensee });
   }
 
