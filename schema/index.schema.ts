@@ -75,6 +75,7 @@ export type ModeDePenseeType = z.infer<typeof ModeDePenseeSchema>;
 
 export type IdeoGrammeType = {
   id: string;
+  project_name:string;
   problems: ProblemSchemaType[];
   solutions: SolutionType[];
   resultats: ResultatType[];
@@ -86,3 +87,9 @@ export type IdeoGrammeType = {
   idees: IdeeType[];
   modesDePensee: ModeDePenseeType[];
 };
+
+export const CreativiteSchema = z.object({
+  project_name: z.string({required_error:"Nom du projet obligatoire"}).min(1, "Nom du projet obligatoire"),
+})
+
+export type CreativiteType = z.infer<typeof CreativiteSchema>;
