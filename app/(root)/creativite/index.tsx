@@ -22,7 +22,7 @@ const CreativiteScreen = (props: Props) => {
           <Text className="text-2xl">Liste des Creativite</Text>
           <ScrollView>
             {ideograms.map((ideogram) => (
-              <TouchableOpacity onPress={()=>router.push(`/creativite/${ideogram.id}`)} className="bg-blue-500 p-3 rounded-md">
+              <TouchableOpacity key={ideogram.id} onPress={()=>router.push(`/creativite/${ideogram.id}`)} className="bg-blue-500 p-3 rounded-md">
                 <Text className="text-2xl text-stone-50">{ideogram.project_name}</Text>
               </TouchableOpacity>
             ))}
