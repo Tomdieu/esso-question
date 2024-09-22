@@ -10,8 +10,9 @@ import React, { useState } from "react";
 import { IdeeSchema } from "@/schema/index.schema";
 import { ZodError } from "zod";
 import { cn } from "@/lib/utils";
-import { router } from "expo-router";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useIdeogrammeStore } from "@/store/answer";
+import { IdeoGramm } from "@/lib/IdeoGramDatabase";
 
 type Props = {};
 
@@ -34,8 +35,17 @@ const ideas = [
 ];
 
 const IdeeScreen = (props: Props) => {
+  const { ideogramId, objectIndex } = useLocalSearchParams<{
+    ideogramId: string;
+    objectIndex: string;
+  }>();
+  const index = parseInt(objectIndex, 10);
+  const ideogram = IdeoGramm.findById(ideogramId);
+  if (!ideogram) {
+    return <Redirect href={"/creativite"} />;
+  }
   const [formValues, setFormValues] = useState({
-    idee: "",
+    idee: ideogram.solutions[index].solution||"",
   });
   const [errors, setErrors] = useState<any>({});
 
@@ -53,7 +63,8 @@ const IdeeScreen = (props: Props) => {
       IdeeSchema.parse(formValues);
       setErrors({});
       setIdee(formValues);
-      router.push("/(app)/(tabs)/output");
+      IdeoGramm.updateIdee(ideogram,index,formValues)
+      router.back()
     } catch (error) {
       if (error instanceof ZodError) {
         const formattedError = error.errors.reduce((acc: any, curr) => {

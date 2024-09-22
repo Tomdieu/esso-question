@@ -105,7 +105,8 @@ const StructurateurScreen = (props: Props) => {
       StructurateurSchema.parse(formValues);
       setErrors({});
       setStructurateur(formValues)
-      router.push("/questions/idee");
+      IdeoGramm.updateStructurateur(ideogram,index,formValues)
+      router.back()
     } catch (error) {
       if (error instanceof ZodError) {
         const formattedError = error.errors.reduce((acc: any, curr) => {

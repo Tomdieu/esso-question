@@ -76,6 +76,7 @@ const ModeleArchitecturalScreen = (props: Props) => {
       setErrors({});
       setModeleArchitectural(formValues)
       IdeoGramm.updateModeleArchitectural(ideogram,index,formValues)
+      router.back()
     } catch (error) {
       if (error instanceof ZodError) {
         const formattedError = error.errors.reduce((acc: any, curr) => {
