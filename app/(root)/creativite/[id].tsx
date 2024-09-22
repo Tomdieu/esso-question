@@ -41,7 +41,7 @@ const CreativiteScreen = (props: Props) => {
         >
           {btnLables.map((item, index) => (
             <TouchableOpacity
-              key={item.label}
+              key={`${i}-${item.label}-${index}`}
               onPress={() => {
                 if (item.route) {
                   console.log(item.route.toString());
