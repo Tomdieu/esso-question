@@ -8,13 +8,10 @@ import {
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import { btnLables } from "@/constants";
-import {
-  Redirect,
-  router,
-  useLocalSearchParams,
-} from "expo-router";
+import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { IdeoGramm } from "@/lib/IdeoGramDatabase";
 import { Href } from "expo-router";
+import IdeoGrammeTable from "@/components/IdeoGrammeTable";
 
 type Props = {};
 
@@ -22,10 +19,10 @@ const CreativiteScreen = (props: Props) => {
   const searchParams = useLocalSearchParams<{ id: string }>();
 
   const id = searchParams.id;
-  if (!id) {
+  const ideogram = IdeoGramm.findById(id);
+  if (!id || ideogram) {
     return <Redirect href={"/(root)/creativite"} />;
   }
-  const ideogram = IdeoGramm.findById(id);
 
   const renderScrollViews = () => {
     const rows = [];
@@ -63,7 +60,9 @@ const CreativiteScreen = (props: Props) => {
   return (
     <View className="bg-blue-500 flex-1">
       <StatusBar style="dark" />
-      <View className="h-56 bg-white m-1"></View>
+      <View className="h-56 bg-white m-1">
+        <IdeoGrammeTable ideogram={ideogram!} />
+      </View>
 
       <View className="flex-row justify-between py-4 px-2">
         <TouchableOpacity className="p-2 border border-blue-600 bg-white">
