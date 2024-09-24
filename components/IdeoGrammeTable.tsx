@@ -1,6 +1,6 @@
 import { IdeoGrammeType } from "@/schema/index.schema";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { ScrollView, View, StyleSheet } from "react-native";
 import { Table, Row, Rows } from "react-native-table-component";
 
 interface IdeoGrammeTableProps {
@@ -8,7 +8,6 @@ interface IdeoGrammeTableProps {
 }
 
 const IdeoGrammeTable: React.FC<IdeoGrammeTableProps> = ({ ideogram }) => {
-  // Define the table headers
   const tableHead = [
     "Problems",
     "Solutions",
@@ -22,47 +21,64 @@ const IdeoGrammeTable: React.FC<IdeoGrammeTableProps> = ({ ideogram }) => {
     "Modes of Thinking",
   ];
 
-  // Prepare data for the table
-  const tableData = [
-    ideogram.problems.map((p) => p.problem).join(", "),
-    ideogram.solutions.map((s) => s.solution).join(", "),
-    ideogram.resultats.map((r) => r.resultat).join(", "),
-    ideogram.outilsDevelopement
-      .map((o) => o.outil_developement.join(", "))
-      .join(", "),
-    ideogram.voiesConsomation
-      .map((v) => v.voie_consomation.join(", "))
-      .join(", "),
-    ideogram.formesCapitatlisation
-      .map((f) => f.forme_capitatlisation)
-      .join(", "),
-    ideogram.modelesArchitectural.map((m) => m.modele_architectural).join(", "),
-    ideogram.structurateurs.map((s) => s.structurateur).join(", "),
-    ideogram.idees.map((i) => i.idee).join(", "),
-    ideogram.modesDePensee.map((m) => m.mode_de_pensee).join(", "),
-  ];
-
-  // Convert the table data into a format suitable for Rows
-  const formattedData = [tableData];
+  const rowCount = 4; // Define how many rows we need
+  const tableData = Array.from({ length: rowCount }, (_, index) => [
+    ideogram.problems[index]?.problem || "",
+    ideogram.solutions[index]?.solution || "",
+    ideogram.resultats[index]?.resultat || "",
+    ideogram.outilsDevelopement[index]?.outil_developement.join(", ") || "",
+    ideogram.voiesConsomation[index]?.voie_consomation.join(", ") || "",
+    ideogram.formesCapitatlisation[index]?.forme_capitatlisation || "",
+    ideogram.modelesArchitectural[index]?.modele_architectural || "",
+    ideogram.structurateurs[index]?.structurateur || "",
+    ideogram.idees[index]?.idee || "",
+    ideogram.modesDePensee[index]?.mode_de_pensee || "",
+  ]);
 
   return (
-    <View className="p-4 bg-white">
-      <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
-        <Row
-          data={tableHead}
-          style={styles.container}
-          textStyle={styles.head}
-        />
-        <Rows data={formattedData} textStyle={styles.text} />
-      </Table>
+    <View style={styles.container}>
+      <ScrollView horizontal>
+        <ScrollView>
+          <View>
+            <Table borderStyle={{ borderWidth: 2, borderColor: "#c8e1ff" }}>
+              {/* Table headers with equal column widths */}
+              <Row
+                data={tableHead}
+                style={styles.header}
+                textStyle={styles.headerText}
+                widthArr={Array(tableHead.length).fill(150)} // Set equal width for all columns
+              />
+              {/* Table rows */}
+              <Rows
+                data={tableData}
+                textStyle={styles.text}
+                widthArr={Array(tableHead.length).fill(150)} // Set equal width for all columns
+              />
+            </Table>
+          </View>
+        </ScrollView>
+      </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: "#fff" },
-  head: { height: 40, backgroundColor: "#f1f8ff" },
-  text: { margin: 6 },
-});
-
 export default IdeoGrammeTable;
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    backgroundColor: "white",
+  },
+  header: {
+    height: 40,
+    backgroundColor: "#f1f1f1",
+  },
+  headerText: {
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  text: {
+    textAlign: "center",
+    padding: 8,
+  },
+});
