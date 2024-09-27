@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useIdeogrammeStore } from "@/store/answer";
 import { IdeoGramm } from "@/lib/IdeoGramDatabase";
+import { useRefresh } from "@/hooks/useRefresh";
 
 type Props = {};
 
@@ -42,6 +43,7 @@ const FormeCapitatlisationScreen = (props: Props) => {
   }>();
   const index = parseInt(objectIndex, 10);
   const ideogram = IdeoGramm.findById(ideogramId);
+  const {setRefresh} = useRefresh()
   if (!ideogram) {
     return <Redirect href={"/creativite"} />;
   }
@@ -68,6 +70,7 @@ const FormeCapitatlisationScreen = (props: Props) => {
       setErrors({});
       setFormeCapitalisation(formValues);
       IdeoGramm.updateFormeCapitatlisation(ideogram, index, formValues);
+      setRefresh(true)
       router.back();
     } catch (error) {
       if (error instanceof ZodError) {

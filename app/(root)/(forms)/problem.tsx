@@ -14,6 +14,7 @@ import { cn } from "@/lib/utils";
 import { Redirect, router, useLocalSearchParams } from "expo-router";
 import { useIdeogrammeStore } from "@/store/answer";
 import { IdeoGramm } from "@/lib/IdeoGramDatabase";
+import { useRefresh } from "@/hooks/useRefresh";
 
 // import { Controller, useForm } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,6 +37,8 @@ const ProblemScreen = (props: Props) => {
   const [errors, setErrors] = useState<any>({});
 
   const { setProblem } = useIdeogrammeStore();
+
+  const {setRefresh} = useRefresh()
 
   // const {
   //   control,
@@ -83,6 +86,7 @@ const ProblemScreen = (props: Props) => {
       // router.push("/questions/mode_de_pensee");
       if (ideogram) {
         IdeoGramm.updateProblem(ideogram!, index, formValues);
+        setRefresh(true)
       }
       router.back();
     } catch (error) {

@@ -13,6 +13,7 @@ import { Redirect, router, useLocalSearchParams } from "expo-router";
 import Checkbox from "expo-checkbox";
 import { useIdeogrammeStore } from "@/store/answer";
 import { IdeoGramm } from "@/lib/IdeoGramDatabase";
+import { useRefresh } from "@/hooks/useRefresh";
 
 type Props = {};
 
@@ -37,6 +38,7 @@ const VoieConsomationScreen = (props: Props) => {
   }>();
   const index = parseInt(objectIndex, 10);
   const ideogram = IdeoGramm.findById(ideogramId);
+  const {setRefresh} = useRefresh()
   if (!ideogram) {
     return <Redirect href={"/creativite"} />;
   }
@@ -89,6 +91,7 @@ const VoieConsomationScreen = (props: Props) => {
       setErrors({});
       setVoieConsomation(formValues)
       IdeoGramm.updateVoieConsomation(ideogram,index,formValues)
+      setRefresh(true)
       router.back()
     } catch (error) {
       if (error instanceof ZodError) {
