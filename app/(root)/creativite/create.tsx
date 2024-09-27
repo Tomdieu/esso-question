@@ -28,7 +28,7 @@ const CreateCreativiteProject = (props: Props) => {
 
   const onSubmit = ({ project_name }: CreativiteType) => {
     if (project_name) {
-      const ideogram = IdeoGramm.create(project_name);
+      const ideogram = IdeoGramm.create(project_name.trim());
       router.push(`/creativite/${ideogram.id}`);
     }
   };
