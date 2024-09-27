@@ -45,7 +45,7 @@ const IdeoGrammeTable: React.FC<IdeoGrammeTableProps> = ({ ideogram }) => {
               <Row
                 data={tableHead}
                 style={styles.header}
-                textStyle={styles.headerText}
+                textStyle={styles.headerText as object}
                 widthArr={Array(tableHead.length).fill(150)} // Set equal width for all columns
               />
               {/* Table rows */}
