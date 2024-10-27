@@ -49,7 +49,9 @@ const StackLayout = (props: Props) => {
               </TouchableOpacity>
             ),
             headerTitle: "Problème",
+            presentation:"modal"
           }}
+
         />
         <Stack.Screen
           name="solution"

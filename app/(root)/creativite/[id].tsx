@@ -62,7 +62,6 @@ const CreativiteScreen = (props: Props) => {
               key={`${i}-${item.label}-${index}`}
               onPress={() => {
                 if (item.route) {
-                  console.log(item.route.toString());
                   router.push(
                     `${item.route}?ideogramId=${id}&objectIndex=${i}` as Href<`${string}?ideogramId=${string}&objectIndex=${number}`>
                   );
