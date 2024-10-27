@@ -17,7 +17,8 @@ import {
 type IdeogrammeStore = {
   problem?: ProblemSchemaType;
   solution?: SolutionType;
-  resultat?: ResultatType;
+  
+  resultat?: ResultatType;  
   outil_developement?: OutilDevelopementType;
   voie_consomation?: VoieConsomationType;
   forme_capitalisation?: FormeCapitatlisationType;
