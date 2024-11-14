@@ -24,7 +24,7 @@ const CreativiteScreen = (props: Props) => {
   const id = searchParams.id;
   const [ideogram, setIdeogram] = useState<IdeoGrammeType | undefined>();
 
-  const { refresh,setRefresh } = useRefresh();
+  const { refresh, setRefresh } = useRefresh();
 
   useEffect(() => {
     if (refresh && id) {
@@ -98,6 +98,13 @@ const CreativiteScreen = (props: Props) => {
         </TouchableOpacity>
         <TouchableOpacity className="p-2 border border-blue-600 bg-white">
           <Text className="text-orange-400 font-inter-bold">Prototype</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => router.push({
+          pathname: "/(forms)/ecodev", params: {
+            ideogramId: ideogram?.id
+          }
+        })} className="p-2 border border-blue-600 bg-white">
+          <Text className="text-orange-400 font-inter-bold">ECODEV</Text>
         </TouchableOpacity>
       </View>
       <View className="justify-center items-center">
