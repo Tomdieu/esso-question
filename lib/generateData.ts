@@ -10,11 +10,13 @@ import {
   IdeeType,
   ModeleArchitecturalType,
   IdeoGrammeType,
+  EcodevType,
+  BusinessModelType,
 } from "@/schema/index.schema";
 import uuid from 'react-native-uuid';
 
 
-export const generateIdeoGramme = (project_name:string): IdeoGrammeType => {
+export const generateIdeoGramme = (project_name: string): IdeoGrammeType => {
   return {
     id: uuid.v4() as string,
     project_name,
@@ -28,8 +30,42 @@ export const generateIdeoGramme = (project_name:string): IdeoGrammeType => {
     structurateurs: createStructurateurs(4),
     idees: createIdees(4),
     modesDePensee: createModesDePensee(4),
+    ecodev:createEcodev(),
+    businessModel:createBusinessModel()
   };
 };
+
+
+export const createEcodev = () => {
+  const ecodev: EcodevType = {
+    entreprise_production: "",
+    entreprise_distribution: "",
+    entreprise_consomation: "",
+    entreprise_dechet: "",
+    partenaires_innovation: "",
+    partenaires_distribution: "",
+    partenaires_juridiques: "",
+    partenaires_production: "",
+    partenaires_transport: "",
+    partenaires_financiers: "",
+    partenaires_commerciax: "",
+    autres_partenaires: ""
+  }
+  return ecodev
+}
+
+export const createBusinessModel = () => {
+  const businessModel:BusinessModelType = {
+    nom_commercial: "",
+    prix: "",
+    cible: "",
+    gamme_produit: "",
+    forme_capitalisation: "",
+    emballage: "",
+    circuit_distribution: ""
+  }
+  return businessModel
+}
 
 export const createProblems = (size: number) => {
   const problems: ProblemSchemaType[] = [];
