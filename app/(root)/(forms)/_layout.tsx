@@ -160,6 +160,17 @@ const StackLayout = (props: Props) => {
           }}
         />
 
+        <Stack.Screen name="ecodev" options={{
+          headerTitle: "Ecodev",
+          headerRight: ({ tintColor }) => (
+            <TouchableOpacity
+              onPress={() => router.back()}
+            >
+              <X size={24} color={tintColor} />
+            </TouchableOpacity>
+          ),
+        }} />
+
       </Stack>
     </React.Fragment>
   );
