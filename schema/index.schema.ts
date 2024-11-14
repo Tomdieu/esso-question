@@ -86,6 +86,8 @@ export type IdeoGrammeType = {
   structurateurs: StructurateurType[];
   idees: IdeeType[];
   modesDePensee: ModeDePenseeType[];
+  ecodev:EcodevType,
+  businessModel:BusinessModelType
 };
 
 export const CreativiteSchema = z.object({
@@ -93,3 +95,33 @@ export const CreativiteSchema = z.object({
 })
 
 export type CreativiteType = z.infer<typeof CreativiteSchema>;
+
+export const EcodevSchema = z.object({
+  id:z.string().optional(),
+  entreprise_production:z.string(),
+  entreprise_distribution:z.string(),
+  entreprise_consomation:z.string(),
+  entreprise_dechet:z.string(),
+  partenaires_innovation:z.string(),
+  partenaires_distribution:z.string(),
+  partenaires_juridiques:z.string(),
+  partenaires_production:z.string(),
+  partenaires_transport:z.string(),
+  partenaires_financiers:z.string(),
+  partenaires_commerciax:z.string(),
+  autres_partenaires:z.string(),
+})
+
+export type EcodevType = z.infer<typeof EcodevSchema>
+
+export const BusinessModelSchema = z.object({
+  nom_commercial:z.string(),
+  prix:z.string(),
+  cible:z.string(),
+  gamme_produit:z.string(),
+  forme_capitalisation:z.string(),
+  emballage:z.string(),
+  circuit_distribution:z.string()
+})
+
+export type BusinessModelType = z.infer<typeof BusinessModelSchema>
