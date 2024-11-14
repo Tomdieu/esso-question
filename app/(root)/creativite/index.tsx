@@ -27,6 +27,12 @@ const CreativiteScreen = (props: Props) => {
               </TouchableOpacity>
             ))}
           </ScrollView>
+          <TouchableOpacity
+            onPress={() => router.push("/creativite/create")}
+            className="bg-blue-500 p-3 rounded-md justify-center items-center"
+          >
+            <Text className="text-white text-2xl font-inter-bold">Crée</Text>
+          </TouchableOpacity>
         </View>
       ) : (
         <View className="flex-1 justify-center px-2 gap-3">
@@ -35,7 +41,7 @@ const CreativiteScreen = (props: Props) => {
             onPress={() => router.push("/creativite/create")}
             className="bg-blue-500 p-3 rounded-md justify-center items-center"
           >
-            <Text className="text-white text-2xl font-inter-bold">Crée</Text>
+            <Text className="text-black text-2xl font-inter-bold">Crée</Text>
           </TouchableOpacity>
         </View>
       )}
