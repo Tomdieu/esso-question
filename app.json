@@ -1,11 +1,12 @@
 {
   "expo": {
-    "name": "esso-question",
-    "slug": "esso-question",
+    "name": "esso",
+    "slug": "esso",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/splash-icon.jpg",
-    "scheme": "myapp",
+    "scheme": "esso",
+    "newArchEnabled": true,
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash-icon.jpg",
@@ -14,14 +15,14 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.essoquestion"
+      "bundleIdentifier": "com.esso.idp"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/splash-icon.jpg",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.anonymous.essoquestion"
+      "package": "com.esso.idp"
     },
     "install": {
       "exclude": [
