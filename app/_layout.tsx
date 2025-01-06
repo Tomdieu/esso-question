@@ -3,6 +3,7 @@ import { SplashScreen, Stack } from "expo-router";
 import React, { useEffect } from "react";
 import { AppRegistry } from "react-native";
 import Toast from "react-native-toast-message";
+import "../global.css";
 
 SplashScreen.preventAutoHideAsync();
 
